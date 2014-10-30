@@ -26,29 +26,64 @@
 //#include <TinyWireM.h> // Enable this line if using Adafruit Trinket, Gemma, etc.
 
 #include "Adafruit_LEDBackpack.h"
-#include "Adafruit_GFX.h"
+// #include "Adafruit_GFX.h"
 
-Adafruit_7segment matrix = Adafruit_7segment();
+Adafruit_7segment matrix0 = Adafruit_7segment();
+Adafruit_7segment matrix1 = Adafruit_7segment();
+Adafruit_7segment matrix2 = Adafruit_7segment();
+Adafruit_7segment matrix3 = Adafruit_7segment();
 
 void setup() {
 #ifndef __AVR_ATtiny85__
   Serial.begin(9600);
   Serial.println("7 Segment Backpack Test");
 #endif
-  matrix.begin(0x70);
+
+  matrix0.begin(0x70);
+  matrix1.begin(0x71);
+  matrix2.begin(0x72);
+  matrix3.begin(0x73);
 }
 
 void loop() {
-  // try to print a number thats too long
-  matrix.print(10000, DEC);
-  matrix.writeDisplay();
+
+  // clean the display
+  matrix0.print(0x0000, HEX);
+  matrix0.writeDisplay();
+
+  matrix1.print(0x0000, HEX);
+  matrix1.writeDisplay();
+
+  matrix2.print(0x0000, HEX);
+  matrix2.writeDisplay();
+
+  matrix3.print(0x0000, HEX);
+  matrix3.writeDisplay();
+
   delay(500);
 
   // print a hex number
-  matrix.print(0xBEEF, HEX);
-  matrix.writeDisplay();
+  matrix1.print(0x0123, HEX);
+  matrix1.writeDisplay();
   delay(500);
 
+  // print a hex number
+  matrix0.print(0x4567, HEX);
+  matrix0.writeDisplay();
+  delay(500);
+
+  // print a hex number
+  matrix3.print(0x89AB, HEX);
+  matrix3.writeDisplay();
+  delay(500);
+
+  // print a hex number
+  matrix2.print(0xCDEF, HEX);
+  matrix2.writeDisplay();
+  delay(500);
+}
+
+/*
   // print a floating point 
   matrix.print(12.34);
   matrix.writeDisplay();
@@ -82,4 +117,4 @@ void loop() {
     matrix.writeDisplay();
     delay(10);
   }
-}
+*/
