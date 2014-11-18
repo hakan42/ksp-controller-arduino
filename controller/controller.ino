@@ -49,6 +49,18 @@ int joystickRight = 0;
 #define JOYSTICK_PIN_LEFT  10
 #define JOYSTICK_PIN_RIGHT 11
 
+int switch0 = 0;
+int switch1 = 0;
+int switch2 = 0;
+int switch3 = 0;
+int switch4 = 0;
+
+#define SWITCH_PIN_0 3
+#define SWITCH_PIN_1 4
+#define SWITCH_PIN_2 5
+#define SWITCH_PIN_3 6
+#define SWITCH_PIN_4 7
+
 #define MIN_BRIGHTNESS 0
 #define CUR_BRIGHTNESS 4
 #define MAX_BRIGHTNESS 15
@@ -77,6 +89,13 @@ void setup()
   pinMode(JOYSTICK_PIN_DOWN,  INPUT_PULLUP);
   pinMode(JOYSTICK_PIN_LEFT,  INPUT_PULLUP);
   pinMode(JOYSTICK_PIN_RIGHT, INPUT_PULLUP);
+
+  // Set up Switches
+  pinMode(SWITCH_PIN_0, INPUT_PULLUP);
+  pinMode(SWITCH_PIN_1, INPUT_PULLUP);
+  pinMode(SWITCH_PIN_2, INPUT_PULLUP);
+  pinMode(SWITCH_PIN_3, INPUT_PULLUP);
+  pinMode(SWITCH_PIN_4, INPUT_PULLUP);
 }
 
 void loop()
@@ -86,34 +105,16 @@ void loop()
   for (int i = 0; i < 999; i++)
   {
 	readJoystick();
+	readSwitches();
 
-	int joystickValue = 1111;
-	if (joystickUp > 0)
-	{
-	  joystickValue += 7;
-	}
-
-    if (joystickDown > 0)
-	{
-	  joystickValue += 70;
-	}
-
-    if (joystickLeft > 0)
-	{
-	  joystickValue += 700;
-	}
-
-    if (joystickRight > 0)
-	{
-	  joystickValue += 7000;
-	}
-
-	drawMatrix(&matrix1, joystickValue, true);
+	drawMatrix(&matrix1, encodeJoystick(), true);
+    // drawMatrix(&matrix1, i + 1000, true);
 
     drawMatrix(&matrix0, i + 2000, true);
-    // drawMatrix(&matrix1, i + 1000, true);
     drawMatrix(&matrix2, i + 4000, true);
-    drawMatrix(&matrix3, i + 3000, true);
+
+    drawMatrix(&matrix3, encodeSwitches(), switch4);
+    // drawMatrix(&matrix3, i + 3000, true);
 
 	delay(50);
   }
@@ -143,4 +144,67 @@ void readJoystick()
   joystickDown  = digitalRead(JOYSTICK_PIN_DOWN);
   joystickLeft  = digitalRead(JOYSTICK_PIN_LEFT);
   joystickRight = digitalRead(JOYSTICK_PIN_RIGHT);
+}
+
+int encodeJoystick()
+{
+  int joystickValue = 1111;
+
+  if (joystickUp > 0)
+  {
+    joystickValue += 7;
+  }
+
+  if (joystickDown > 0)
+  {
+    joystickValue += 70;
+  }
+
+  if (joystickLeft > 0)
+  {
+    joystickValue += 700;
+  }
+
+  if (joystickRight > 0)
+  {
+    joystickValue += 7000;
+  }
+
+  return joystickValue;
+}
+
+void readSwitches()
+{
+  switch0 = digitalRead(SWITCH_PIN_0);
+  switch1 = digitalRead(SWITCH_PIN_1);
+  switch2 = digitalRead(SWITCH_PIN_2);
+  switch3 = digitalRead(SWITCH_PIN_3);
+  switch4 = digitalRead(SWITCH_PIN_4);
+}
+
+int encodeSwitches()
+{
+  int switchValue = 1111;
+
+  if (switch0 > 0)
+  {
+    switchValue += 7;
+  }
+
+  if (switch1 > 0)
+  {
+    switchValue += 70;
+  }
+
+  if (switch2 > 0)
+  {
+    switchValue += 700;
+  }
+
+  if (switch3 > 0)
+  {
+    switchValue += 7000;
+  }
+
+  return switchValue;
 }
