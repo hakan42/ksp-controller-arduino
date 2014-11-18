@@ -40,6 +40,10 @@ int display2 = 0;
 int display3 = 0;
 
 
+#define MIN_BRIGHTNESS 0
+#define CUR_BRIGHTNESS 4
+#define MAX_BRIGHTNESS 15
+
 void setup()
 {
 #ifndef __AVR_ATtiny85__
@@ -48,21 +52,23 @@ void setup()
 #endif
 
   matrix0.begin(0x70);
+  setBrightness(&matrix0, CUR_BRIGHTNESS);
+
   matrix1.begin(0x71);
+  setBrightness(&matrix1, CUR_BRIGHTNESS);
+
   matrix2.begin(0x72);
+  setBrightness(&matrix2, CUR_BRIGHTNESS);
+
   matrix3.begin(0x73);
-}
-
-void cleanupDisplays()
-{
-
+  setBrightness(&matrix3, CUR_BRIGHTNESS);
 }
 
 void loop()
 {
   boolean drawDots = true;
 
-  for (int i = 0; i < 999; i++) {
+  for (int i = 0; i < 999; i++){
     drawMatrix(&matrix0, i + 2000, true);
     drawMatrix(&matrix1, i + 1000, true);
     drawMatrix(&matrix2, i + 4000, true);
@@ -81,5 +87,11 @@ void drawMatrix(Adafruit_7segment* matrix, int number, boolean drawDots)
 
   matrix->print(number);
   matrix->drawColon(drawDots);
+  matrix->writeDisplay();
+}
+
+void setBrightness(Adafruit_7segment* matrix, int brightness)
+{
+  matrix->setBrightness(brightness);
   matrix->writeDisplay();
 }
