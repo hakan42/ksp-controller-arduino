@@ -33,7 +33,15 @@ Adafruit_7segment matrix1 = Adafruit_7segment();
 Adafruit_7segment matrix2 = Adafruit_7segment();
 Adafruit_7segment matrix3 = Adafruit_7segment();
 
-void setup() {
+
+int display0 = 0;
+int display1 = 0;
+int display2 = 0;
+int display3 = 0;
+
+
+void setup()
+{
 #ifndef __AVR_ATtiny85__
   Serial.begin(9600);
   Serial.println("7 Segment Backpack Test");
@@ -45,56 +53,33 @@ void setup() {
   matrix3.begin(0x73);
 }
 
-void loop() {
+void cleanupDisplays()
+{
 
-  // clean the display
-  matrix0.print(0x4567, HEX);
-  matrix0.writeDisplay();
+}
 
-  matrix1.print(0x0123, HEX);
-  matrix1.writeDisplay();
+void loop()
+{
+  boolean drawDots = true;
 
-  matrix2.print(0xCDEF, HEX);
-  matrix2.writeDisplay();
+  for (int i = 0; i < 999; i++) {
+    drawMatrix(&matrix0, i + 2000, true);
+    drawMatrix(&matrix1, i + 1000, true);
+    drawMatrix(&matrix2, i + 4000, true);
+    drawMatrix(&matrix3, i + 3000, true);
 
-  matrix3.print(0xABCD, HEX);
-  matrix3.writeDisplay();
+	delay(50);
+  }
 
   delay(500);
 }
 
-/*
-  // print a floating point 
-  matrix.print(12.34);
-  matrix.writeDisplay();
-  delay(500);
-  
-  // print with print/println
-  for (uint16_t counter = 0; counter < 9999; counter++) {
-    matrix.println(counter);
-    matrix.writeDisplay();
-    delay(10);
-  }
+void drawMatrix(Adafruit_7segment* matrix, int number, boolean drawDots)
+{
+  // void writeDigitNum(uint8_t x, uint8_t num, boolean dot = false);
+  // matrix.writeDigitNum(0, (counter / 1000), drawDots);
 
-  // method #2 - draw each digit
-  uint16_t blinkcounter = 0;
-  boolean drawDots = false;
-  for (uint16_t counter = 0; counter < 9999; counter ++) {
-    matrix.writeDigitNum(0, (counter / 1000), drawDots);
-    matrix.writeDigitNum(1, (counter / 100) % 10, drawDots);
-    matrix.drawColon(drawDots);
-    matrix.writeDigitNum(3, (counter / 10) % 10, drawDots);
-    matrix.writeDigitNum(4, counter % 10, drawDots);
-   
-    blinkcounter+=50;
-    if (blinkcounter < 500) {
-      drawDots = false;
-    } else if (blinkcounter < 1000) {
-      drawDots = true;
-    } else {
-      blinkcounter = 0;
-    }
-    matrix.writeDisplay();
-    delay(10);
-  }
-*/
+  matrix->print(number);
+  matrix->drawColon(drawDots);
+  matrix->writeDisplay();
+}
