@@ -39,6 +39,15 @@ int display1 = 0;
 int display2 = 0;
 int display3 = 0;
 
+int joystickUp    = 0;
+int joystickDown  = 0;
+int joystickLeft  = 0;
+int joystickRight = 0;
+
+#define JOYSTICK_PIN_UP    8
+#define JOYSTICK_PIN_DOWN  9
+#define JOYSTICK_PIN_LEFT  10
+#define JOYSTICK_PIN_RIGHT 11
 
 #define MIN_BRIGHTNESS 0
 #define CUR_BRIGHTNESS 4
@@ -62,15 +71,47 @@ void setup()
 
   matrix3.begin(0x73);
   setBrightness(&matrix3, CUR_BRIGHTNESS);
+
+  // Set up Joystick
+  pinMode(JOYSTICK_PIN_UP,    INPUT_PULLUP);
+  pinMode(JOYSTICK_PIN_DOWN,  INPUT_PULLUP);
+  pinMode(JOYSTICK_PIN_LEFT,  INPUT_PULLUP);
+  pinMode(JOYSTICK_PIN_RIGHT, INPUT_PULLUP);
 }
 
 void loop()
 {
   boolean drawDots = true;
 
-  for (int i = 0; i < 999; i++){
+  for (int i = 0; i < 999; i++)
+  {
+	readJoystick();
+
+	int joystickValue = 1111;
+	if (joystickUp > 0)
+	{
+	  joystickValue += 7;
+	}
+
+    if (joystickDown > 0)
+	{
+	  joystickValue += 70;
+	}
+
+    if (joystickLeft > 0)
+	{
+	  joystickValue += 700;
+	}
+
+    if (joystickRight > 0)
+	{
+	  joystickValue += 7000;
+	}
+
+	drawMatrix(&matrix1, joystickValue, true);
+
     drawMatrix(&matrix0, i + 2000, true);
-    drawMatrix(&matrix1, i + 1000, true);
+    // drawMatrix(&matrix1, i + 1000, true);
     drawMatrix(&matrix2, i + 4000, true);
     drawMatrix(&matrix3, i + 3000, true);
 
@@ -94,4 +135,12 @@ void setBrightness(Adafruit_7segment* matrix, int brightness)
 {
   matrix->setBrightness(brightness);
   matrix->writeDisplay();
+}
+
+void readJoystick()
+{
+  joystickUp    = digitalRead(JOYSTICK_PIN_UP);
+  joystickDown  = digitalRead(JOYSTICK_PIN_DOWN);
+  joystickLeft  = digitalRead(JOYSTICK_PIN_LEFT);
+  joystickRight = digitalRead(JOYSTICK_PIN_RIGHT);
 }
