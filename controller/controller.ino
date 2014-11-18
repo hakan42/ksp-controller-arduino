@@ -48,38 +48,18 @@ void setup() {
 void loop() {
 
   // clean the display
-  matrix0.print(0x0000, HEX);
-  matrix0.writeDisplay();
-
-  matrix1.print(0x0000, HEX);
-  matrix1.writeDisplay();
-
-  matrix2.print(0x0000, HEX);
-  matrix2.writeDisplay();
-
-  matrix3.print(0x0000, HEX);
-  matrix3.writeDisplay();
-
-  delay(500);
-
-  // print a hex number
-  matrix1.print(0x0123, HEX);
-  matrix1.writeDisplay();
-  delay(500);
-
-  // print a hex number
   matrix0.print(0x4567, HEX);
   matrix0.writeDisplay();
-  delay(500);
 
-  // print a hex number
-  matrix3.print(0x89AB, HEX);
-  matrix3.writeDisplay();
-  delay(500);
+  matrix1.print(0x0123, HEX);
+  matrix1.writeDisplay();
 
-  // print a hex number
   matrix2.print(0xCDEF, HEX);
   matrix2.writeDisplay();
+
+  matrix3.print(0xABCD, HEX);
+  matrix3.writeDisplay();
+
   delay(500);
 }
 
