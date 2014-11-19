@@ -9,7 +9,7 @@ install:
 
 before_script:
   - /bin/rm -rf /opt/arduino-${ARDUINO_VERSION}
-  - mkdir -p /opt/arduino-orig
+  - sudo mkdir -p /opt/arduino-orig
   - curl -s http://downloads.arduino.cc/arduino-${ARDUINO_IDE_VERSION}-linux64.tgz | sudo tar xz -C /opt/arduino-orig
 
 script:
