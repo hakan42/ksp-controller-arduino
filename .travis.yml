@@ -17,6 +17,7 @@ before_script:
   - ls -l /opt/arduino-${ARDUINO_IDE_VERSION}/tools
 
 script:
+  - ls -l .
 
 notifications:
   email:
