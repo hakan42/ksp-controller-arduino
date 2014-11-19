@@ -11,15 +11,12 @@ install:
 before_script:
   - wget http://arduino.googlecode.com/files/arduino-${ARDUINO_IDE_VERSION}-linux64.tgz
   - cat arduino-${ARDUINO_IDE_VERSION}-linux64.tgz | sudo tar xz -C /opt
-
-script:
   - ls -l ${AVR}
   - ls -l ${AVR}/bin
   - ls -l ${AVR}/bin.gcc
-  - ls -l /opt/arduino-${ARDUINO_IDE_VERSION}/hardware/tools/avr
-  - ls -l /opt/arduino-${ARDUINO_IDE_VERSION}/hardware/tools/avr/bin
-  - ls -l /opt/arduino-${ARDUINO_IDE_VERSION}/hardware/tools/avr/bin.gcc
   - ls -l /opt/arduino-${ARDUINO_IDE_VERSION}/tools
+
+script:
 
 notifications:
   email:
