@@ -14,7 +14,8 @@ script:
   - ls -l /opt
   - ls -l /opt/arduino-${ARDUINO_IDE_VERSION}
   - ls -l /opt/arduino-${ARDUINO_IDE_VERSION}/arduino
-  - ls -l /opt/arduino-${ARDUINO_IDE_VERSION}/bin
+  - ls -l /opt/arduino-${ARDUINO_IDE_VERSION}/hardware
+  - ls -l /opt/arduino-${ARDUINO_IDE_VERSION}/hardware/tools
 
 notifications:
   email:
