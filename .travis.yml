@@ -18,7 +18,6 @@ before_script:
 script:
   - ls -l .
   - ant clean build
-  - set | grep -i travis
 
 notifications:
   email:
