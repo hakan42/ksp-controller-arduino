@@ -18,8 +18,8 @@ script:
   - ls -l /opt/arduino-${ARDUINO_IDE_VERSION}/arduino
   - ls -l /opt/arduino-${ARDUINO_IDE_VERSION}/hardware
   - ls -l /opt/arduino-${ARDUINO_IDE_VERSION}/hardware/tools
+  - ls -l /opt/arduino-${ARDUINO_IDE_VERSION}/hardware/tools/avr
   - ls -l /opt/arduino-${ARDUINO_IDE_VERSION}/tools
-  - ls -l /opt/arduino-orig
 
 notifications:
   email:
