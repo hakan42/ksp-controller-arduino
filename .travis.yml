@@ -8,7 +8,6 @@ install:
   - pwd
 
 before_script:
-  - echo $(pwd)
   - wget http://arduino.googlecode.com/files/arduino-${ARDUINO_IDE_VERSION}-linux64.tgz
   - cat arduino-${ARDUINO_IDE_VERSION}-linux64.tgz | sudo tar xz -C /opt
 
@@ -19,6 +18,8 @@ script:
   - ls -l /opt/arduino-${ARDUINO_IDE_VERSION}/hardware
   - ls -l /opt/arduino-${ARDUINO_IDE_VERSION}/hardware/tools
   - ls -l /opt/arduino-${ARDUINO_IDE_VERSION}/hardware/tools/avr
+  - ls -l /opt/arduino-${ARDUINO_IDE_VERSION}/hardware/tools/avr/bin
+  - ls -l /opt/arduino-${ARDUINO_IDE_VERSION}/hardware/tools/avr/bin.gcc
   - ls -l /opt/arduino-${ARDUINO_IDE_VERSION}/tools
 
 notifications:
