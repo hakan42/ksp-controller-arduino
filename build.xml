@@ -11,12 +11,12 @@
 	<property name="avr.compile.flags" value="-c -g -Os -Wall -fno-exceptions -ffunction-sections -fdata-sections -mmcu=${mcu.type} -DF_CPU=${mcu.frequency} -DARDUINO=${arduino.version}" />
 	<property name="avr.link.flags"    value="-Os -Wl,--gc-sections -mmcu=${mcu.type}" />
 
-	<target name="travis-version" if="env.TRAVIS">
-		<property name="version" value="${project.name}_${env.TRAVIS_BUILD_NUMBER}/>
+	<target name="travis-version" if="env.TRAVIS" >
+		<property name="version" value="${project.name}_${env.TRAVIS_BUILD_NUMBER}" />
 	</target>
 
-	<target name="version" depends="travis-version">
-		<property name="version" value="MANUAL-BUILD"/>
+	<target name="version" depends="travis-version" >
+		<property name="version" value="MANUAL-BUILD" />
 		<echo>Building: ${version}</echo>
 	</target>
 
