@@ -13,7 +13,9 @@ before_script:
 script:
   - ls -l /opt
 
- notifications:
+notifications:
+  email:
+    - hakan@gurkensalat.com
   webhooks:
     urls:
       - https://webhooks.gitter.im/e/9e07df0cae07b400dee6
