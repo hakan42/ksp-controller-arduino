@@ -1,18 +1,29 @@
 ﻿<?xml version="1.0"?>
-<project name="ksp-controller" default="build">
+<project name="ksp-controller-arduino" basedir="." default="build">
 
 	<property environment="env"/>
 	<property file="build.properties" />
 
-	<property name="src"    location="src" />
+	<property name="src"    location="." />
 	<property name="target" location="target" />
-	<property name="build"  location="target/build" />
+	<property name="build"  location="${target}/build" />
+	<property name="bin"    location="${target}/bin"/>
 
-	<property name="avr.compile.flags" value="-c -g -Os -Wall -fno-exceptions -ffunction-sections -fdata-sections -mmcu=${mcu.type} -DF_CPU=${mcu.frequency} -DARDUINO=${arduino.version}" />
+    <property name="lib.arduino-core" location="lib/arduino/${arduino.version}"/>
+
+	<property name="avr.compile.flags" value="-c -g -Os -Wall -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -MMD -mmcu=${mcu.type} -DF_CPU=${mcu.frequency} -DARDUINO=${arduino.version}" />
 	<property name="avr.link.flags"    value="-Os -Wl,--gc-sections -mmcu=${mcu.type}" />
 
+	<target name="arduino-dir-from-env" if="env.AVR" >
+		<property name="arduino" value="${env.AVR}" />
+	</target>
+
+	<target name="arduino-dir" depends="arduino-dir-from-env" >
+		<property name="arduino" value="D:/work/arduino" />
+	</target>
+
 	<target name="travis-version" if="env.TRAVIS" >
-		<property name="version" value="${project.name}_${env.TRAVIS_BUILD_NUMBER}" />
+		<property name="version" value="${ant.project.name}_${env.TRAVIS_BUILD_NUMBER}" />
 	</target>
 
 	<target name="version" depends="travis-version" >
@@ -25,8 +36,43 @@
         <delete dir="${target}" />
     </target>
 
-    <target name="build" depends="clean, version">
+    <target name="build" depends="clean, version, compile">
         <mkdir dir="${build}" />
-	</target>
+    </target>
+
+    <target name="compile" depends="clean, version, arduino-dir">
+        <copy todir="${build}" verbose="true">
+            <fileset dir="${src}" includes="**/*.pde **/*.ino"/>
+            <compositemapper>
+                <regexpmapper from="^([^/]+)(.*)\.(pde|ino)" to="\1.cpp"/>
+                <flattenmapper/>
+            </compositemapper>
+        </copy>
+
+        <mkdir dir="${bin}" />
+        <mkdir dir="${bin}/controller" />
+
+        <path id="compile.includes.path">
+            <pathelement location="${arduino}/hardware/arduino/avr/cores/arduino"/>
+            <pathelement location="${arduino}/hardware/arduino/avr/variants/mega"/>
+            <pathelement location="${arduino}/hardware/arduino/avr/libraries/Wire"/>
+            <!--
+            <dirset dir="${arduino}/hardware/arduino/avr" excludes="**/examples/**" />
+            <dirset dir="${arduino}/libraries"            excludes="**/examples/**" />
+            -->
+        </path>
+
+        <pathconvert property="compile.includes" refid="compile.includes.path" pathsep=" -I" />
+
+        <apply executable="${arduino}/hardware/tools/avr/bin/avr-g++" dest="${bin}" parallel="false" failonerror="true">
+            <arg line="${avr.compile.flags}"/>
+            <arg line="-I${compile.includes}"/>
+            <srcfile/>
+            <arg value="-o"/><targetfile/>
+            <fileset dir="${build}" includes="**/*.cpp" />
+            <mapper type="glob" from="*.cpp" to="*.o"/>
+        </apply>
+
+    </target>
 
 </project>
