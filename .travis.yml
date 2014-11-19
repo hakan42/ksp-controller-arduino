@@ -9,8 +9,7 @@ install:
   - pwd
 
 before_script:
-  - wget http://arduino.googlecode.com/files/arduino-${ARDUINO_IDE_VERSION}-linux64.tgz
-  - cat arduino-${ARDUINO_IDE_VERSION}-linux64.tgz | sudo tar xz -C /opt
+  - wget http://arduino.googlecode.com/files/arduino-${ARDUINO_IDE_VERSION}-linux64.tgz | sudo tar xz -C /opt
   - ls -l ${AVR}
   - ls -l ${AVR}/bin
   - ls -l ${AVR}/bin.gcc
