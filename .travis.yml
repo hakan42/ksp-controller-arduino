@@ -8,7 +8,9 @@ install:
   - pwd
 
 before_script:
-  - curl -s http://arduino.googlecode.com/files/arduino-${ARDUINO_IDE_VERSION}-linux64.tgz | sudo tar xz -C /opt
+  - /bin/rm -rf /opt/arduino-${ARDUINO_VERSION}
+  - mkdir -p /opt/arduino-orig
+  - curl -s http://downloads.arduino.cc/arduino-${ARDUINO_IDE_VERSION}-linux64.tgz | sudo tar xz -C /opt/arduino-orig
 
 script:
   - ls -l /opt
@@ -17,6 +19,7 @@ script:
   - ls -l /opt/arduino-${ARDUINO_IDE_VERSION}/hardware
   - ls -l /opt/arduino-${ARDUINO_IDE_VERSION}/hardware/tools
   - ls -l /opt/arduino-${ARDUINO_IDE_VERSION}/tools
+  - ls -l /opt/arduino-orig
 
 notifications:
   email:
