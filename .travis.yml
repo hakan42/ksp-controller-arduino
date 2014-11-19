@@ -18,6 +18,7 @@ before_script:
 script:
   - ls -l .
   - ant clean build
+  - set
 
 notifications:
   email:
