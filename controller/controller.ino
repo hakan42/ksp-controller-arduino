@@ -148,26 +148,26 @@ void readJoystick()
 
 int encodeJoystick()
 {
-  int joystickValue = 1111;
+  int joystickValue = 8888;
 
   if (joystickUp > 0)
   {
-    joystickValue += 7;
+    joystickValue -= 7;
   }
 
   if (joystickDown > 0)
   {
-    joystickValue += 70;
+    joystickValue -= 70;
   }
 
   if (joystickLeft > 0)
   {
-    joystickValue += 700;
+    joystickValue -= 700;
   }
 
   if (joystickRight > 0)
   {
-    joystickValue += 7000;
+    joystickValue -= 7000;
   }
 
   return joystickValue;
